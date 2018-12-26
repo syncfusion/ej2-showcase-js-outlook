@@ -43,7 +43,7 @@
             fields: { text: 'MailId', value: 'MailId' },
             itemTemplate: '<div class="multiselect-template parent-div"><img class="contacts-item-image-style"' +
                 'src="${Image}" alt="employee"/>' +
-                '<div class="contacts-item-text-style"> <div> ${ContactName} </div> </div>' +
+                '<div class="contacts-item-text-style"> <div> ${text} </div> </div>' +
                 '<div class="contacts-item-subtext-style"> ${MailId} </div>' +
                 '</div>',
             valueTemplate: '<div>'+
@@ -52,7 +52,7 @@
             mode: 'Box',         
             filtering: function (e) {
                 var query = new ej.data.Query();
-                query = (e.text !== '') ? query.where('ContactName', 'startswith', e.text, true) : query;
+                query = (e.text !== '') ? query.where('text', 'startswith', e.text, true) : query;
                 e.updateData(getContacts(), query);
             },
             allowFiltering: true
@@ -65,7 +65,7 @@
             popupWidth: '300px',
             itemTemplate: '<div class="multiselect-template parent-div"><img class="contacts-item-image-style"' +
                 'src="${Image}" alt="employee"/>' +
-                '<div class="contacts-item-text-style"> <div> ${ContactName} </div> </div>' +
+                '<div class="contacts-item-text-style"> <div> ${text} </div> </div>' +
                 '<div class="contacts-item-subtext-style"> ${MailId} </div>' +
                 '</div>',
             valueTemplate: '<div>'+
@@ -75,7 +75,7 @@
             allowFiltering: true,
             filtering: function (e) {
                 var query = new ej.data.Query();
-                query = (e.text !== '') ? query.where('ContactName', 'startswith', e.text, true) : query;
+                query = (e.text !== '') ? query.where('text', 'startswith', e.text, true) : query;
                 e.updateData(getContacts(), query);
             }
         });
