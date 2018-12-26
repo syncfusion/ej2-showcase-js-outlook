@@ -95,7 +95,7 @@ function renderMainSection() {
     grpListObj = new ej.lists.ListView({
         dataSource: messageDataSource,
         template: getListTemplate(),
-        fields: { id: 'ContactID' },
+        fields: { id: 'ContactID', text: 'text' },
         sortOrder: 'None'
     });
     grpListObj.select = select;
@@ -314,7 +314,7 @@ function renderToolbarMobile() {
 function getListTemplate() {
     return '<div class="template-container ${ReadStyle}-parent">' +
         '<div style="height:30px; pointer-events:none;">' +
-        '<div class="sender-style" style="float:left; margin-top: 2px">${ContactName}</div>' +
+        '<div class="sender-style" style="float:left; margin-top: 2px">${text}</div>' +
         '<div style="right:25px; position: absolute; margin-top: 2px; pointer-events:all;">' +
         '<button id="btnListDelete" title="Delete" class="listview-btn">' +
         '<span class="e-btn-icon ej-icon-Delete"></span>' +
@@ -560,7 +560,7 @@ function select(args) {
     key = 'Image';
     headerTitle.getElementsByClassName('logo logo-style2')[0].style.background =
         'url(' + data[key].toString().replace('styles/images/images/', 'styles/images/large/') + ')  no-repeat 50% 50%';
-    key = 'ContactName';
+    key = 'text';
     document.getElementById('sub').innerHTML = data[key].toString();
     key = 'Date';
     var dateString = data[key].toString();
@@ -955,7 +955,8 @@ function toolbarClick(args) {
             var selectedMessage = getSelectedMessage();
             messageDataSource.splice(messageDataSource.indexOf(selectedMessage), 1);
             var key = 'ContactID';
-            grpListObj.removeItem({ id: selectedMessage[key].toString() });
+            var contactName = 'text';
+            grpListObj.removeItem({ id: selectedMessage[key].toString(), text: selectedMessage[contactName].toString() });
             if (args.item.prefixIcon === 'ej-icon-Delete' && window.innerWidth < 605) {
                 contentElement = document.getElementsByClassName('row content')[0];
                 contentElement.className = contentElement.className.replace('show-reading-pane', 'show-message-pane');
@@ -1196,7 +1197,8 @@ function documentClick(evt) {
                     if (target.className.indexOf('ej-icon-Delete') !== -1) {
                         messageDataSource.splice(messageDataSource.indexOf(selectedMessage), 1);
                         key = 'ContactID';
-                        grpListObj.removeItem({ id: selectedMessage[key].toString() });
+                        var contactName = 'text';
+                        grpListObj.removeItem({ id: selectedMessage[key].toString(), text: selectedMessage[contactName].toString() });
                     }
                     else if (target.className.indexOf('ej-icon-Flag_1') !== -1) {
                         flagListItem(target, selectedMessage);
@@ -1268,7 +1270,8 @@ function readingPaneItemClick() {
             var selectedMessage = getSelectedMessage();
             messageDataSource.splice(messageDataSource.indexOf(selectedMessage), 1);
             var key = 'ContactID';
-            grpListObj.removeItem({ id: selectedMessage[key].toString() });
+            var contactName = 'text';
+            grpListObj.removeItem({ id: selectedMessage[key].toString(), text: selectedMessage[contactName].toString() });
             showEmptyMessage();
             dlgReplyAllWindow.hide();
         }
@@ -1351,7 +1354,7 @@ function hidePopup() {
 }
 function openPopup() {
     var newMessageData = cloneObject(messageDataSource[Math.floor(Math.random() * (50 - 3) + 2)]);
-    var key = 'ContactName';
+    var key = 'text';
     document.getElementById('popup-contact').innerHTML = newMessageData[key].toString();
     key = 'ContactTitle';
     document.getElementById('popup-subject').innerHTML = newMessageData[key].toString();
