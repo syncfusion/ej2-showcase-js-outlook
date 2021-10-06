@@ -8,7 +8,7 @@ var dlgDiscardNew;
 var dlgNewWindow;
 var dlgReplyAllWindow;
 var dlgFavorite;
-var splitButton;
+var ddlReplyAll;
 var dlgDelete;
 var dropdownSelect = false;
 var acrdnObj = new ej.navigations.Accordion();
@@ -101,7 +101,7 @@ function renderMainSection() {
     grpListObj.select = select;
     grpListObj.appendTo('#listview-grp');
     acrdnObj.appendTo('#accordian');
-    var replyTemplate = '<button id="replyAllList">Reply All</button>';
+    var replyTemplate = '<input type="text" tabindex="1" id="replyAllList" />';
     var movetoTemplate = '<input type="text" tabindex="1" id="moveToList" />';
     var categoryTemplate = '<input type="text" tabindex="1" id="categoryList" />';
     var moreTemplate = '<input type="text" tabindex="1" id="moreList" />';
@@ -169,18 +169,25 @@ function renderMoveToList() {
 }
 function renderReplyAllList() {
     var themeList = [
-        { text: 'Reply', iconCss: "e-splitbuttons-icons e-reply" },
-        { text: 'Reply All', iconCss: "e-splitbuttons-icons e-replyAll" },
-        { text: 'Forward', iconCss: "e-splitbuttons-icons e-forward" }
+        { text: 'Reply' }, { text: 'Reply All' }, { text: 'Forward' }
     ];
-    splitButton = new ej.splitbuttons.SplitButton({
-        items: themeList,
-        content: 'Reply All',
-        select: replyAllSelect,
-        iconCss: "e-btn-icon ej-icon-Reply-All tb-icons e-icons tb-icon-rply-all"
+    ddlReplyAll = new ej.dropdowns.DropDownList({
+        dataSource: themeList,
+        fields: { text: 'text' },
+        valueTemplate: '<div>' +
+        '<div style="float:left;margin-top: 1px;">' +
+        '<span style="font-weight:bold;" class="e-btn-icon ej-icon-Reply-All tb-icons e-icons tb-icon-rply-all">' +
+        '</span>' +
+        '</div>' +
+        '<div class="tb-dropdowns" style="float:left" > Reply All </div>' +
+        '<div>',
+        popupHeight: '150px',
+        popupWidth: '150px',
+        width: '115px',
+        change: replyAllSelect,
+        value: 'Reply All'
     });
-    splitButton.appendTo('#replyAllList');
-
+    ddlReplyAll.appendTo('#replyAllList');
 }
 function renderCategoryList() {
     var themeList = [
@@ -1180,8 +1187,8 @@ function documentClick(evt) {
         else if (!dropdownSelectRP && dlgReplyAllWindow.visible && target.innerText === ddlLastRplyValueRP) {
             showMailDialogRP(ddlLastRplyValueRP);
         }
-        else if (!dropdownSelect && !dlgReplyAllWindow.visible && target.innerText === splitButton.content) {
-            showNewMailPopup(splitButton.content);
+        else if (!dropdownSelect && !dlgReplyAllWindow.visible && target.innerText === ddlReplyAll.value) {
+            showNewMailPopup(ddlReplyAll.value);
         }
         else {
             if (target.tagName === 'SPAN' || (target.children && target.children.length > 0)) {
