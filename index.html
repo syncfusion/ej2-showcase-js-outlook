@@ -13,11 +13,17 @@
     <link href='styles/styles.css' rel='stylesheet' />
     <link href='styles/Outlook Icons/style.css' rel='stylesheet' />
     <link href='styles/css/outlook.css' rel='stylesheet' />
+    <link href="/node_modules/@syncfusion/ej2-base/styles/fabric.css" rel="stylesheet"> 
+    <link href="/node_modules/@syncfusion/ej2-navigations/styles/appbar/fabric.css" rel="stylesheet">
+    <link href="/node_modules/@syncfusion/ej2-navigations/styles/sidebar/fabric.css" rel="stylesheet" type="text/css" />
+    <link href="/node_modules/@syncfusion/ej2-layouts/styles/fabric.css" rel="stylesheet" type="text/css" />
+    <link href="/node_modules/@syncfusion/ej2-dropdowns/styles/fabric.css" rel="stylesheet" type="text/css" />
+    <link href="/node_modules/@syncfusion/ej2-navigations/styles/h-scroll/fabric.css" rel="stylesheet" type="text/css" />
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.0/crossroads.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/hasher/1.2.0/hasher.min.js"></script>
-	
+
     <script type="text/javascript">
 		if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
 			document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"><\/script>');
@@ -28,8 +34,7 @@
 
 <body>
     <div class='outlook-container'>
-        <div class='header navbar'>
-            <div class='container-fluid' style="font-size: 0; white-space: nowrap; line-height: normal">
+            <div id="appbar" style="font-size: 0; white-space: nowrap; line-height: normal">
                 <div style="display: table-cell">
                     <div class='home-btn'>
                         <span class='ej-icon-Bento' style='font-size: 18px;'></span>
@@ -56,15 +61,14 @@
                     </div>
                 </div>
                 <div id="profile-div" class="header-right-pane"> 
-                    <div style="right: 0px;position: absolute;top: 3px;pointer-events: none;margin-right: 5px;">
-                        <div class='logo logo-style1 profile-pic'></div>
+                    <div style="pointer-events: none;">
+                        <button id="btnLoginName" class="btn-profile e-control e-btn e-lib btn-shadow-hide" style="min-width: 88px;font-weight: normal">Andrew Fuller</button>
                     </div>  
-                    <div style="margin-right: 44px; pointer-events: none;">
-                        <button id='btnLoginName' class="btn-profile" style="min-width: 88px;font-weight: normal"></button>
+                    <div style="margin-right: 5px; pointer-events: none;">
+                        <span class="e-avatar e-avatar-large e-avatar-circle" style="background-image: url('./styles/images/1.png');height: 40px; width: 40px;"></span>
                     </div> 
                 </div>
             </div>
-        </div>
         <div id="content-area" style="height: 100%">
         </div>
     </div>
