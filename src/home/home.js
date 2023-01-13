@@ -31,11 +31,10 @@ var lastIndex = 31;
 var hoverOnPopup = false;
 var isNewMailClick = false;
 var defaultSidebar;
+var sidebarHeader;
 window.home = function () {
     var contentWrapper = document.getElementsByClassName('content-wrapper')[0];
     contentWrapper.onclick = hideSideBar;
-    var overlayElement = document.getElementsByClassName('overlay-element')[0];
-    overlayElement.onclick = hideSideBar;
     window.onresize = onWindowResize;
     window.onload = onWindowResize;
     document.onclick = documentClick;
@@ -93,10 +92,21 @@ function renderMainSection() {
             enablePersistence: true,
             enableGestures: false,
             width:'280px',
-            type:'push'
+            type:'push',
+            showBackdrop: false
         }
     );
     defaultSidebar.appendTo('#sidebar');
+    sidebarHeader = new ej.navigations.Sidebar(
+        {
+            position: "Right",
+            width: "330px",
+            type: "Push",
+            target: ".content-wrapper",
+            enableGestures: false,
+        }
+    );
+    sidebarHeader.appendTo('#headerSidebar');
 
     treeObj.appendTo('#tree');
     messageDataSource = messageDataSourceNew;
@@ -359,7 +369,7 @@ function showToolbarItems(displayType) {
     }
 }
 function nodeSelected(args) {
-    removeSpacer();
+    updateNewMailClick();
     var key = 'id';
     treeSelectedElement = args.node;
     treeviewSelectedData = getTreeData1(args.nodeData[key].toString());
@@ -375,7 +385,7 @@ function nodeSelected(args) {
     hideSideBar();
 }
 function showEmptyMessage() {
-    removeSpacer();
+    updateNewMailClick();
     document.getElementById('emptyMessageDiv').style.display = '';
     document.getElementById('mailarea').style.display = 'none';
     document.getElementById('accordian').style.display = 'none';
@@ -387,7 +397,7 @@ function showEmptyMessage() {
     document.getElementById('toolbar_align').style.display = '';
 }
 function showSelectedMessage() {
-    removeSpacer();
+    updateNewMailClick();
     document.getElementById('emptyMessageDiv').style.display = 'none';
     document.getElementById('mailarea').style.display = 'none';
     document.getElementById('accordian').style.display = '';
@@ -864,6 +874,7 @@ function btnCloseClick() {
     contentWrapper.className = contentWrapper.className.replace(' show-header-content', '');
     var headerRP = document.getElementsByClassName('header-right-pane selected')[0];
     headerRP.className = 'header-right-pane';
+    sidebarHeader.hide();
 }
 function sortList(listItems) {
     for (var i = 0; i < listItems.length; i++) {
@@ -954,10 +965,6 @@ function toolbarClick(args) {
     if (args.item) {
         if (args.item.prefixIcon === 'ej-icon-Menu tb-icons') {
             defaultSidebar.show();
-
-            var overlayElement = document.getElementsByClassName('overlay-element')[0];
-            overlayElement.className = 'overlay-element show1';
-
             isMenuClick = true;
         }
         else if (args.item.prefixIcon === 'ej-icon-Back') {
@@ -1027,7 +1034,7 @@ function toolbarClick(args) {
 function showNewMailPopup(option) {
     isNewMailClick = true;
     if (window.innerWidth > 1090) {
-        document.getElementById('list-pane-div').classList.add("pane-spacer");
+        document.getElementById('list-pane-div').classList.add("msg-top-margin");
     }
     var selectedMessage = getSelectedMessage();
     showToolbarItems('none');
@@ -1054,6 +1061,7 @@ function onWindowResize(evt) {
             headerRP.className = 'header-right-pane';
         }
         contentArea.className = 'row content';
+        sidebarHeader.type = "Over";
     }
     else {
         if (contentArea.className.indexOf('show-header-content') === -1) {
@@ -1062,27 +1070,21 @@ function onWindowResize(evt) {
         else {
             contentArea.className = 'row content show-header-content';
         }
+        sidebarHeader.type = "Push";
     }
     if (window.innerWidth < 1090) {
         contentArea.className = 'row content sidebar-hide';
-        if (messagePane.classList.contains('pane-spacer')) {
-            messagePane.classList.remove("pane-spacer");
-        }
+        messagePane.classList.remove("msg-top-margin");
         defaultSidebar.hide();
         defaultSidebar.type = 'Over';
+        defaultSidebar.showBackdrop = true;
         defaultSidebar.dataBind();
     }
     else {
-        if (!isNewMailClick) {
-            if (messagePane.classList.contains("pane-spacer")) {
-                messagePane.classList.remove("pane-spacer");
-            }
-        }
-        else {
-            messagePane.classList.add("pane-spacer");
-        }
+        messagePane.classList[isNewMailClick ? 'add' : 'remove']('msg-top-margin');
         defaultSidebar.show();
         defaultSidebar.type = 'Push';
+        defaultSidebar.showBackdrop = false;
         defaultSidebar.dataBind();
     }
     if (window.innerWidth < 605) {
@@ -1117,8 +1119,6 @@ function hideSideBar() {
     if (!isMenuClick) {
         if (defaultSidebar && window.innerWidth < 1090) {
             defaultSidebar.hide();
-            var overlayElement = document.getElementsByClassName('overlay-element')[0];
-            overlayElement.className = 'overlay-element';
         }
     }
     isMenuClick = false;
@@ -1237,6 +1237,7 @@ function documentClick(evt) {
         var target = evt.target;
         if (target.className.indexOf('header-right-pane') !== -1) {
             headerContent(evt.target);
+            sidebarHeader.show();
         }
         else if (!dropdownSelectRP && dlgReplyAllWindow.visible && target.innerText === ddlLastRplyValueRP) {
             showMailDialogRP(ddlLastRplyValueRP);
@@ -1457,7 +1458,7 @@ function openPopup() {
     setTimeout(function () { hidePopup(); }, 2000);
 }
 setTimeout(openPopup, 3000);
-function removeSpacer() {
+function updateNewMailClick() {
     isNewMailClick=false;
-    document.getElementById('list-pane-div').classList.remove("pane-spacer");
+    document.getElementById('list-pane-div').classList.remove("msg-top-margin");
 }
