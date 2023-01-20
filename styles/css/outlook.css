@@ -1672,7 +1672,8 @@ html, body {
     display: none;
 }
 /* Overriding splitter styles to make splitBar transparent  */
-#splitter.e-splitter .e-split-bar.e-split-bar-horizontal, #splitter.e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-hover,
+#splitter.e-splitter .e-split-bar.e-split-bar-horizontal,
+#splitter.e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-hover,
 .e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-active {
     background-color: transparent;
  }
