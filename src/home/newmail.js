@@ -25,6 +25,11 @@
     window.newmail = function () {
         renderToolbar();
         createMailForm();
+        var mentionObj = new ej.dropdowns.Mention({
+            dataSource: getContacts(),
+            fields: { text: 'text' },
+        });
+        mentionObj.appendTo('#mailContentMessage');
     };
     function createMailForm() {
         var toButton = new ej.buttons.Button();
@@ -90,7 +95,7 @@
             items: toolbarItem,
             height: '100%',
             width: '100%',
-            overflowMode: 'Popup'
+            overflowMode: 'Scrollable'
         });
         toolbarNewMail.appendTo('#new_email_toolbar');
     }
